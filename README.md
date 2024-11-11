@@ -27,7 +27,9 @@ Solution Design
 5. Utilities:
 - `ShortCodeGenerator`: Classe utilitária pra gerar codigos de URL curtos (short_urls) que serão salvas nesse campo da entidade ‘ShortUrl ‘.<br><br>
 
+![Logo](imgs/img6.png)<br>
 
+<br><br>
 **Exemplos das requests ao url-shorten-service:**
 
 - POST – criando uma nova shortUrlCode
