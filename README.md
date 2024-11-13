@@ -52,7 +52,10 @@ Solution Design
 
 ![Logo](imgs/img5.png)<br>
 
-
+-------------
+OBSERVAÇÕES / MELHORIAS:
+- Deletar por por id ao inves da shortenUrl;
+- Usar Cache no Redis;
 
 
 
