@@ -52,10 +52,12 @@ Solution Design
 
 ![Logo](imgs/img5.png)<br>
 
--------------
-OBSERVAÇÕES / MELHORIAS:
+------------------------------------------------
+**OBSERVAÇÕES / MELHORIAS:**
 - Deletar por por id ao inves da shortenUrl;
 - Usar Cache no Redis;
+- Fazer o build da aplicação dentro do Docker [Dockerfile expor para o NGINX , pesquisar como........], e usar o NGINX (servidor de aplicação) , fazer uma cópia pra dentro do NGINX  - dar uma pesquisada em como fazer a exposição da aplicação rodando no servidor de aplicação para a internet;
+- Dar uma estudada previa e verificar as etapas para deployar o projeto num ambiente de teste.
 
 
 
