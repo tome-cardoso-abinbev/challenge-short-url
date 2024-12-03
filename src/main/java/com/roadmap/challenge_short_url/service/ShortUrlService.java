@@ -6,6 +6,9 @@ import com.roadmap.challenge_short_url.model.UrlRequest;
 import com.roadmap.challenge_short_url.repository.ShortUrlRepository;
 import com.roadmap.challenge_short_url.utils.ShortCodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,7 +18,7 @@ import java.util.List;
 public class ShortUrlService {
 
     @Autowired
-    private ShortUrlRepository shortUrlRepository;
+    private final ShortUrlRepository shortUrlRepository;
 
     public ShortUrlService(ShortUrlRepository shortUrlRepository) {
         this.shortUrlRepository = shortUrlRepository;
@@ -31,18 +34,26 @@ public class ShortUrlService {
         return save(shortUrl);
     }
 
+    @Cacheable(value = "shortUrl", key = "#shortUrlCode")
     public ShortUrl findByShortUrlCode(String shortUrlCode) {
         return shortUrlRepository.findByShortUrlCode(shortUrlCode);
     }
 
+    @Cacheable(value = "shortUrl", key = "#url")
     public ShortUrl findByUrl(String url) {
         return shortUrlRepository.findByUrl(url);
+    }
+
+    @Cacheable(value = "shortUrl", key = "#id")
+    public ShortUrl findById(String id) {
+        return shortUrlRepository.findById(id).orElse(null);
     }
 
     public List<ShortUrl> findAllByUrl() {
         return shortUrlRepository.findAll();
     }
 
+    @CachePut(value = "shortUrl", key = "#shortUrl.id")
     public ShortUrl save(ShortUrl shortUrl) {
         return shortUrlRepository.save(shortUrl);
     }
@@ -72,10 +83,11 @@ public class ShortUrlService {
     }
 
 
-    public void delete(ShortUrl shortUrl) {
+    private void delete(ShortUrl shortUrl) {
         shortUrlRepository.delete(shortUrl);
     }
 
+    @CacheEvict(value = "shortUrl", key = "#shortUrlCode")
     public UrlDeletedResponse deleteByShortUrlCode(String shortUrlCode) {
         ShortUrl shortUrl = findByShortUrlCode(shortUrlCode);
         UrlDeletedResponse response = new UrlDeletedResponse();
@@ -89,11 +101,25 @@ public class ShortUrlService {
         return null;
     }
 
+    @CacheEvict(value = "shortUrl", key = "#url")
     public void deleteByUrl(String url) {
         ShortUrl shortUrl = findByUrl(url);
         if (shortUrl != null) {
             delete(shortUrl);
         }
+    }
+
+    @CacheEvict(value = "shortUrl", key = "#id")
+    public UrlDeletedResponse deleteById(String id) {
+        ShortUrl shortUrl = findById(id);
+        UrlDeletedResponse response = new UrlDeletedResponse();
+        if (shortUrl != null) {
+            response.setDeleted(true);
+            response.setUrl(shortUrl.getUrl());
+            response.setShortUrlCode(shortUrl.getShortUrlCode());
+            delete(shortUrl);
+        }
+        return response;
     }
 
     public void incrementAccessCount(ShortUrl shortUrl) {

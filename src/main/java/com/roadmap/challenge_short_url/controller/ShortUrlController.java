@@ -64,4 +64,14 @@ public class ShortUrlController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @DeleteMapping("/byId/{id}")
+    public ResponseEntity<UrlDeletedResponse> deleteShortUrlById(
+            @PathVariable String id) {
+        if(service.findById(id) != null) {
+            var toBeDeleted = service.deleteById(id);
+            return ResponseEntity.ok(toBeDeleted);
+        }
+        return ResponseEntity.notFound().build();
+    }
 }

@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongodb_shorten
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    command: >
+      bash -c "
+      apt-get update &&
+      apt-get install -y mongodb-org-tools &&
+      docker-entrypoint.sh mongod
+      "
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo-express_shorten
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+
+volumes:
+  mongo-data:
