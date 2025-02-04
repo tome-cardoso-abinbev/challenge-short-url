@@ -8,12 +8,14 @@ services:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
-    command: >
-      bash -c "
-      apt-get update &&
-      apt-get install -y mongodb-org-tools &&
-      docker-entrypoint.sh mongod
-      "
+    command: [ "mongod", "--bind_ip_all" ]
+    healthcheck:
+      test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
 
   mongo-express:
     image: mongo-express:latest
@@ -22,6 +24,24 @@ services:
       - "8081:8081"
     environment:
       ME_CONFIG_MONGODB_SERVER: mongo
+    networks:
+      - app-network
 
+  app:
+    build:
+      context: ..
+      dockerfile: env/Dockerfile
+    container_name: app_shorten
+    ports:
+      - "8080:80"
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/challenge_short_url
 volumes:
   mongo-data:
+
+networks:
+  app-network:

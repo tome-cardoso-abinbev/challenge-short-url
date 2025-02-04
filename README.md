@@ -19,7 +19,7 @@ Solution Design
    - `ShortUrlRepository`: Interface que extende `MongoRepository` para aproveitar as CRUD operations já existentes e disponíveis para implementação sobre a classe `ShortUrl` , o modelo do sistema.
 
 3.  Services:
-   - `ShortUrlService`: camada de serviço uada para lidar com a lógica de negócio , com as funcionalidades CRUD (create, retrieving, updating, deleting, and getting statistics) das short URLs.
+   - `ShortUrlService`: camada de serviço usada para lidar com a lógica de negócio e funcionalidades CRUD (create, retrieving, updating, deleting, and getting statistics) das short URLs.
 
 4. Controllers:
 - `ShortUrlController`: classe REST Controller para manipular os endpoints de requests da API.
@@ -54,10 +54,10 @@ Solution Design
 
 ------------------------------------------------
 **OBSERVAÇÕES / MELHORIAS:**
-- Deletar por por id ao inves da shortenUrl;
-- Usar Cache no Redis;
-- Fazer o build da aplicação dentro do Docker [Dockerfile expor para o NGINX , pesquisar como........], e usar o NGINX (servidor de aplicação) , fazer uma cópia pra dentro do NGINX  - dar uma pesquisada em como fazer a exposição da aplicação rodando no servidor de aplicação para a internet;
-- Dar uma estudada previa e verificar as etapas para deployar o projeto num ambiente de teste.
+- [x] Deletar por por id ao inves da shortenUrl;
+- [x] Usar Cache no Redis;
+- [x] Fazer o build da aplicação dentro do Docker [Dockerfile expor para o NGINX , pesquisar como........], e usar o NGINX (servidor de aplicação) , fazer uma cópia pra dentro do NGINX  - dar uma pesquisada em como fazer a exposição da aplicação rodando no servidor de aplicação para a internet;
+- [x] Dar uma estudada previa e verificar as etapas para deployar o projeto num ambiente de teste.
 
 
 

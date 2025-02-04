@@ -1,6 +1,5 @@
 package com.roadmap.challenge_short_url.controller;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.roadmap.challenge_short_url.model.ShortUrl;
 import com.roadmap.challenge_short_url.model.UrlDeletedResponse;
 import com.roadmap.challenge_short_url.model.UrlRequest;
